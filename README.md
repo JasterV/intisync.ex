@@ -1,6 +1,6 @@
 # Intisync
 
-Allow clients to create private sessions and interact with each other in real time
+Create private sessions to control vibration-based devices remotely
 
 ### Notes on the project name
 
