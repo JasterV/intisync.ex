@@ -31,8 +31,7 @@ defmodule IntisyncWeb.ConnCase do
     end
   end
 
-  setup tags do
-    Intisync.DataCase.setup_sandbox(tags)
+  setup _ do
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

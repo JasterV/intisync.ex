@@ -1,18 +1,11 @@
 # Intisync
 
-To start your Phoenix server:
+Allow clients to create private sessions and interact with each other in real time
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+### Notes on the project name
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Despite the similarity on the name, this project is not endorsed by [Intiface](https://github.com/intiface) and [Intiface](https://github.com/intiface) is their own registered trademark.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+I chose this name because this project was inspired by `Intiface` and the clients require the use of their software to connect the Hub to the bluetooth devices.
 
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Also I find the name IntiSync very catchy and easy to remember.
