@@ -13,6 +13,10 @@ defmodule IntisyncWeb.HubLive do
       |> assign(:intiface_client_status, nil)
       |> assign(:devices, %{})
       |> assign(:session_id, nil)
+      |> assign(
+        :connect_url,
+        Application.get_env(:intisync, __MODULE__, :connect_url) |> IO.inspect("CONNECT URL")
+      )
 
     {:ok, socket}
   end
@@ -94,13 +98,8 @@ defmodule IntisyncWeb.HubLive do
   # Intiface Client events #
   ##########################
 
-  def handle_event("local_connect", %{}, socket) do
-    socket = push_event(socket, "local_connect", %{})
-    {:noreply, socket}
-  end
-
-  def handle_event("remote_connect", %{}, socket) do
-    socket = push_event(socket, "remote_connect", %{})
+  def handle_event("connect", %{}, socket) do
+    socket = push_event(socket, "connect", %{url: socket.assigns.connect_url})
     {:noreply, socket}
   end
 

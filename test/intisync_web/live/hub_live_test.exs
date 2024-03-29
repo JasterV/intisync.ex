@@ -142,9 +142,9 @@ defmodule IntisyncWeb.HubLiveTest do
 
     assert view |> element("#connect-buttons") |> has_element?()
 
-    assert view |> element("#intiface-local-connect-button") |> render_click()
+    assert view |> element("#intiface-connect-button") |> render_click()
 
-    assert_push_event(view, "local_connect", %{})
+    assert_push_event(view, "connect", %{})
   end
 
   test "A device connected event is ignored if intiface central is not connected", %{
