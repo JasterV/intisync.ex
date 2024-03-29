@@ -1,0 +1,30 @@
+<header class="mb-10">
+  <h1 class="text-5xl mb-4 font-bold text-indigo-500">
+    IntiSync Controller
+  </h1>
+  <p class="text-2xl mt-2 text-zinc-600 font-semibold">
+    You are controlling a remote device, be careful!
+  </p>
+</header>
+
+<section>
+  <h2 class="text-3xl mb-4 font-bold text-indigo-500">
+    Connected devices
+  </h2>
+
+  <p :if={Enum.empty?(@devices)} class="text-lg text-amber-500 font-semibold">
+    <.icon name="hero-signal-slash" class="mr-1.5" /> No devices connected yet
+  </p>
+
+  <div class="flex flex-col gap-4 mt-2">
+    <%= for {index, device} <- @devices do %>
+      <form phx-change={"vibrate_device:#{index}"}>
+        <IntisyncWeb.DeviceCardComponent.view
+          id={"device-#{index}"}
+          device={device}
+          disabled={false}
+        />
+      </form>
+    <% end %>
+  </div>
+</section>

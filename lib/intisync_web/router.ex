@@ -18,6 +18,7 @@ defmodule IntisyncWeb.Router do
     pipe_through :browser
 
     live "/", LobbyLive
+    live "/sessions/:id/remote", RemoteLive
 
     live_session :hub, root_layout: {IntisyncWeb.Layouts, :hub_root} do
       live "/sessions/:id", HubLive
