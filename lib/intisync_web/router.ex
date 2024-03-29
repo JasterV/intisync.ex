@@ -17,7 +17,7 @@ defmodule IntisyncWeb.Router do
   scope "/", IntisyncWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", LobbyLive
   end
 
   # Other scopes may use custom stacks.
