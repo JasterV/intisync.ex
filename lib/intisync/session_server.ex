@@ -1,6 +1,11 @@
 defmodule Intisync.SessionServer do
-  alias Intisync.SessionPubSub
+  @moduledoc """
+    Contains the business logic of a session.
+    It is the source of truth of the session state.
+  """
   use GenServer
+
+  alias Intisync.SessionPubSub
 
   def init(session_id) do
     {:ok,
@@ -47,8 +52,8 @@ defmodule Intisync.SessionServer do
     GenServer.call(pid, {:get_devices})
   end
 
-  def is_full?(pid) do
-    GenServer.call(pid, {:is_full?})
+  def full?(pid) do
+    GenServer.call(pid, {:full?})
   end
 
   def handle_call({:get_id}, _from, state) do
@@ -59,10 +64,10 @@ defmodule Intisync.SessionServer do
     {:reply, state.devices, state}
   end
 
-  def handle_call({:is_full?}, _from, state) do
-    is_full? = state.remote_connection_status == :connected
+  def handle_call({:full?}, _from, state) do
+    full? = state.remote_connection_status == :connected
 
-    {:reply, is_full?, state}
+    {:reply, full?, state}
   end
 
   def handle_call({:device_connected, index, device}, _from, state) do

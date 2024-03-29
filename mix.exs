@@ -52,7 +52,8 @@ defmodule Intisync.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.2"},
-      {:puid, "~> 2.1"}
+      {:puid, "~> 2.1"},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 

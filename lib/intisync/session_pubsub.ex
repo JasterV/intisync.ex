@@ -1,4 +1,8 @@
 defmodule Intisync.SessionPubSub do
+  @moduledoc """
+    Provides function to publish/subscribe to IntiSync.PubSub topics
+  """
+
   def broadcast!(session_id, topic, event, payload) do
     topic = "#{topic}:#{event}:#{session_id}"
     payload = %{payload: payload, topic: topic}

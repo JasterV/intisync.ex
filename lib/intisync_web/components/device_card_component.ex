@@ -1,4 +1,7 @@
 defmodule IntisyncWeb.DeviceCardComponent do
+  @moduledoc """
+    Renders a device card
+  """
   use Phoenix.Component
   import IntisyncWeb.CoreComponents
 

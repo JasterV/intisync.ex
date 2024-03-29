@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+env:
+  MIX_ENV: test
+
+jobs:
+  ci:
+    name: Run CI on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        otp: ["26.0"]
+        elixir: ["1.16.0"]
+
+    steps:
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{matrix.elixir}}
+          otp-version: ${{matrix.otp}}
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step: Define how to cache deps. Restores existing cache if present.
+      - name: Cache deps
+        id: cache-deps
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-deps
+        with:
+          path: deps
+          key: ${{ runner.os }}-${{matrix.otp}}-${{matrix.elixir}}-${{ env.cache-name }}-${{ hashFiles('./**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{matrix.otp}}-${{matrix.elixir}}-${{ env.cache-name }}-
+
+      # Step: Define how to cache the `_build` directory. After the first run,
+      # this speeds up tests runs a lot. This includes not re-compiling our
+      # project's downloaded deps every run.
+      - name: Cache compiled build
+        id: cache-build
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-compiled-build
+        with:
+          path: _build
+          key: ${{ runner.os }}-${{matrix.otp}}-${{matrix.elixir}}-${{ env.cache-name }}-${{ hashFiles('./**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{matrix.otp}}-${{matrix.elixir}}-${{ env.cache-name }}
+            ${{ runner.os }}-${{matrix.otp}}-${{matrix.elixir}}-
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      # Step: Compile the project treating any warnings as errors.
+      - name: Compiles without warnings
+        run: mix compile --warnings-as-errors
+
+      # Step: Check that the checked in code has already been formatted.
+      # This step fails if something was found unformatted.
+      - name: Check Formatting
+        run: mix format --check-formatted
+
+      # Step: Execute Credo
+      - name: Run Credo
+        run: mix credo
+
+      # Step: Execute the tests.
+      - name: Run tests
+        run: mix test
