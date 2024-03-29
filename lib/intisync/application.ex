@@ -11,6 +11,7 @@ defmodule Intisync.Application do
       IntisyncWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:intisync, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Intisync.PubSub},
+      {Intisync.SessionsSupervisor, %{}},
       {IntisyncWeb.LiveViewMonitor, %{}},
       IntisyncWeb.Endpoint
     ]
