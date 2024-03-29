@@ -1,0 +1,80 @@
+<header class="mb-10">
+  <h1 class="text-5xl mb-4 font-bold text-indigo-500">
+    IntiSync Hub
+  </h1>
+  <p class="text-2xl mt-2 text-zinc-600 font-semibold">
+    You are hosting an IntiSync session
+  </p>
+
+  <div id="hub-status" class="flex flex-col sm:flex-row items-left gap-3 mt-6">
+    <.badge
+      :if={@intiface_client_status == :disconnected}
+      id="intiface-client-disconnected-badge"
+      class="text-red-700 ring-red-500"
+    >
+      <.icon name="hero-signal-slash" class="mr-1.5" /> Intiface Central
+    </.badge>
+
+    <.badge
+      :if={@intiface_client_status == :connected}
+      id="intiface-client-connected-badge"
+      class="text-green-700 ring-green-500"
+    >
+      <.icon name="hero-link" class="mr-1.5" /> Intiface Central
+    </.badge>
+
+    <.badge
+      :if={@remote_controller_status == :disconnected}
+      id="remote-controller-disconnected-badge"
+      class="text-red-700 ring-red-500"
+    >
+      <.icon name="hero-signal-slash" class="mr-1.5" /> Remote controller
+    </.badge>
+
+    <.badge
+      :if={@remote_controller_status == :connected}
+      id="remote-controller-connected-badge"
+      class="text-green-700 ring-green-500"
+    >
+      <.icon name="hero-link" class="mr-1.5" /> Remote controller
+    </.badge>
+  </div>
+</header>
+
+<section
+  :if={@intiface_client_status == :disconnected}
+  id="connect-buttons"
+  class="flex flex-col gap-6 items-center"
+>
+  <.button id="intiface-local-connect-button" type="button" phx-click="local_connect">
+    Connect to Intiface Central
+  </.button>
+
+  <p class="font-semibold">or</p>
+
+  <.button id="intiface-remote-connect-button" type="button" phx-click="remote_connect">
+    Connect to a remote Intiface Central
+  </.button>
+</section>
+
+<section :if={@intiface_client_status == :connected} id="connected-devices-section">
+  <h2 class="text-3xl mb-4 font-bold text-indigo-500">
+    Connected devices
+  </h2>
+
+  <p :if={Enum.empty?(@devices)} class="text-lg text-amber-500 font-semibold">
+    <.icon name="hero-signal-slash" class="mr-1.5" /> No devices connected yet
+  </p>
+
+  <div class="flex flex-col gap-5 mt-2">
+    <%= for {index, device} <- @devices do %>
+      <IntisyncWeb.DeviceCardComponent.view
+        id={"device-#{index}"}
+        device={device}
+        disabled={true}
+      />
+    <% end %>
+  </div>
+</section>
+
+<div id={@session_id} phx-hook="HubHook"></div>

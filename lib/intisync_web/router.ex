@@ -18,6 +18,10 @@ defmodule IntisyncWeb.Router do
     pipe_through :browser
 
     live "/", LobbyLive
+
+    live_session :hub, root_layout: {IntisyncWeb.Layouts, :hub_root} do
+      live "/sessions/:id", HubLive
+    end
   end
 
   # Other scopes may use custom stacks.
