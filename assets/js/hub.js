@@ -1,8 +1,19 @@
 import { socketConfig } from "./setup";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
+import HubHook from "./hubHook";
 
-const liveSocket = new LiveSocket("/live", Socket, socketConfig);
+const Hooks = {
+  HubHook: HubHook(
+    "ws://127.0.0.1:12345/buttplug",
+    "ws://192.168.1.45:12345/buttplug",
+  ),
+};
+
+const liveSocket = new LiveSocket("/live", Socket, {
+  ...socketConfig,
+  hooks: Hooks,
+});
 
 // connect if there are any LiveViews on the page
 liveSocket.connect();
