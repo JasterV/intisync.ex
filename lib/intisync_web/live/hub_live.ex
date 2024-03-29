@@ -6,6 +6,8 @@ defmodule IntisyncWeb.HubLive do
   alias Intisync.SessionsSupervisor
   alias Intisync.SessionServer
 
+  @config Application.compile_env!(:intisync, __MODULE__)
+
   def mount(_params, _session, socket) do
     socket =
       socket
@@ -13,10 +15,6 @@ defmodule IntisyncWeb.HubLive do
       |> assign(:intiface_client_status, nil)
       |> assign(:devices, %{})
       |> assign(:session_id, nil)
-      |> assign(
-        :connect_url,
-        Application.get_env(:intisync, __MODULE__, :connect_url) |> IO.inspect("CONNECT URL")
-      )
 
     {:ok, socket}
   end
@@ -99,7 +97,7 @@ defmodule IntisyncWeb.HubLive do
   ##########################
 
   def handle_event("connect", %{}, socket) do
-    socket = push_event(socket, "connect", %{url: socket.assigns.connect_url})
+    socket = push_event(socket, "connect", %{url: @config[:connect_url]})
     {:noreply, socket}
   end
 
