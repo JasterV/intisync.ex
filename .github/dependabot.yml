@@ -1,0 +1,22 @@
+version: 2
+updates:
+  # Specifying multiple directories for a single package ecosystem
+  # is a work in progress: https://github.com/dependabot/dependabot-core/issues/2178
+  - package-ecosystem: mix
+    directory: "/"
+    schedule:
+      interval: weekly
+    allow:
+      - dependency-type: direct
+
+  - package-ecosystem: npm
+    directory: "/assets"
+    schedule:
+      interval: weekly
+    allow:
+      - dependency-type: direct
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: weekly
