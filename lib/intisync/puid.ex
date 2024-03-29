@@ -1,5 +1,5 @@
 defmodule Intisync.Puid do
-  @doc """
+  @moduledoc """
   Generate Probably unique identifiers
   """
   use Puid

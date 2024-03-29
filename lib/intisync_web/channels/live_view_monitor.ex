@@ -1,4 +1,7 @@
 defmodule IntisyncWeb.LiveViewMonitor do
+  @moduledoc """
+    Monitors LiveView processes and calls their `unmount` functions when they die
+  """
   use GenServer
 
   def start_link(init_arg) do

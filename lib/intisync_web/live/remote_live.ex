@@ -52,7 +52,7 @@ defmodule IntisyncWeb.RemoteLive do
         {:error, :not_found}
 
       pid ->
-        if SessionServer.is_full?(pid) do
+        if SessionServer.full?(pid) do
           {:error, :unauthorized}
         else
           {:ok, pid}

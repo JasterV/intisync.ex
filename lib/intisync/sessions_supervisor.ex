@@ -1,4 +1,7 @@
 defmodule Intisync.SessionsSupervisor do
+  @moduledoc """
+    DynamicSupervisor responsible to manage SessionServers
+  """
   use DynamicSupervisor
 
   alias Intisync.SessionServer
