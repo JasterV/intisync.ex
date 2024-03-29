@@ -11,9 +11,7 @@ defmodule Intisync.Application do
       IntisyncWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:intisync, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Intisync.PubSub},
-      # Start a worker by calling: Intisync.Worker.start_link(arg)
-      # {Intisync.Worker, arg},
-      # Start to serve requests, typically the last entry
+      {IntisyncWeb.LiveViewMonitor, %{}},
       IntisyncWeb.Endpoint
     ]
 
