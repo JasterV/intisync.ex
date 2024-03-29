@@ -18,6 +18,8 @@ config :intisync, IntisyncWeb.Endpoint,
   pubsub_server: Intisync.PubSub,
   live_view: [signing_salt: "aSHjRP5j"]
 
+config :intisync, IntisyncWeb.HubLive, connect_url: "ws://127.0.0.1:12345/buttplug"
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",

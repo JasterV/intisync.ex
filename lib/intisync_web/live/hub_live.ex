@@ -6,6 +6,8 @@ defmodule IntisyncWeb.HubLive do
   alias Intisync.SessionsSupervisor
   alias Intisync.SessionServer
 
+  @config Application.compile_env!(:intisync, __MODULE__)
+
   def mount(_params, _session, socket) do
     socket =
       socket
@@ -94,13 +96,8 @@ defmodule IntisyncWeb.HubLive do
   # Intiface Client events #
   ##########################
 
-  def handle_event("local_connect", %{}, socket) do
-    socket = push_event(socket, "local_connect", %{})
-    {:noreply, socket}
-  end
-
-  def handle_event("remote_connect", %{}, socket) do
-    socket = push_event(socket, "remote_connect", %{})
+  def handle_event("connect", %{}, socket) do
+    socket = push_event(socket, "connect", %{url: @config[:connect_url]})
     {:noreply, socket}
   end
 

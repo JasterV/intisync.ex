@@ -3,7 +3,7 @@ import {
   ButtplugBrowserWebsocketClientConnector,
 } from "buttplug";
 
-const Hub = (localAddress, remoteAddress) => {
+const Hub = () => {
   const client = new ButtplugClient("IntisyncClient");
 
   const connect = async (view, address) => {
@@ -32,15 +32,7 @@ const Hub = (localAddress, remoteAddress) => {
         await device.vibrate(vibration / 100.0);
       });
 
-      this.handleEvent(
-        "local_connect",
-        async () => await connect(this, localAddress),
-      );
-
-      this.handleEvent(
-        "remote_connect",
-        async () => await connect(this, remoteAddress),
-      );
+      this.handleEvent("connect", async ({ url }) => await connect(this, url));
 
       client.addListener("deviceadded", async (device) => {
         const event = {
