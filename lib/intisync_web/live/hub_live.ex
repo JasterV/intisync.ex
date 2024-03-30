@@ -15,6 +15,7 @@ defmodule IntisyncWeb.HubLive do
       |> assign(:intiface_client_status, nil)
       |> assign(:devices, %{})
       |> assign(:session_id, nil)
+      |> assign(:share_url, nil)
 
     {:ok, socket}
   end
@@ -31,6 +32,7 @@ defmodule IntisyncWeb.HubLive do
       |> assign(:remote_controller_status, :disconnected)
       |> assign(:intiface_client_status, :disconnected)
       |> assign(:session_id, session_id)
+      |> assign(:share_url, share_url(session_id))
 
     if exists_session?(session_id) do
       socket = socket |> put_flash(:error, "Unauthorized") |> redirect(to: "/")
@@ -63,6 +65,8 @@ defmodule IntisyncWeb.HubLive do
     SessionPubSub.subscribe!(session_id, "devices", "vibrate")
   end
 
+  defp share_url(session_id), do: IntisyncWeb.Endpoint.url() <> ~p"/sessions/#{session_id}/remote"
+
   ############################
   # Remote controller events #
   ############################
@@ -90,6 +94,18 @@ defmodule IntisyncWeb.HubLive do
       |> push_event("vibrate", %{index: index, vibration: vibration})
 
     {:noreply, socket}
+  end
+
+  #############
+  # UI events #
+  #############
+
+  def handle_event("url_shared", %{}, socket) do
+    {:noreply, put_flash(socket, :info, "Session shared! :)")}
+  end
+
+  def handle_event("url_share_error", %{"error" => error}, socket) do
+    {:noreply, put_flash(socket, :error, "Failed to share session. #{error}")}
   end
 
   ##########################

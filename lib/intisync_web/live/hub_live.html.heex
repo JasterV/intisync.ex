@@ -6,7 +6,7 @@
     You are hosting an IntiSync session
   </p>
 
-  <div id="hub-status" class="flex flex-col sm:flex-row items-left gap-3 mt-6">
+  <div id="hub-status" class="flex flex-row gap-3 mt-6">
     <.badge
       :if={@intiface_client_status == :disconnected}
       id="intiface-client-disconnected-badge"
@@ -41,34 +41,90 @@
   </div>
 </header>
 
-<section
-  :if={@intiface_client_status == :disconnected}
-  id="connect-buttons"
-  class="flex flex-col gap-6 items-center"
->
-  <.button id="intiface-connect-button" type="button" phx-click="connect">
-    Connect to Intiface Central
-  </.button>
-</section>
+<main class="flex flex-col gap-5 mt-10">
+  <section
+    :if={@remote_controller_status == :disconnected}
+    id="share-session"
+    class="text-center rounded-lg border-solid border-zinc-200 border-2 p-6"
+  >
+    <h3 class="text-2xl mb-6 font-semibold text-zinc-600">
+      Share this session to start having fun
+    </h3>
 
-<section :if={@intiface_client_status == :connected} id="connected-devices-section">
-  <h2 class="text-3xl mb-4 font-bold text-indigo-500">
-    Connected devices
-  </h2>
+    <div class="flex flex-col items-center gap-4">
+      <div class="flex w-full items-center">
+        <span class="rounded-s-lg z-10 inline-flex flex-shrink-0 items-center border border-gray-300 bg-indigo-500 px-4 py-2.5 text-center text-sm font-medium text-white">
+          URL
+        </span>
+        <div class="w-full">
+          <input
+            id="share-url"
+            type="text"
+            aria-describedby="helper-text-explanation"
+            class="border-e-0 border-s-0 block w-full border border-gray-300 p-2.5 text-sm text-gray-500"
+            value={@share_url}
+            readonly
+            disabled
+          />
+        </div>
+        <.button
+          id="copyButton"
+          phx-hook="CopyToClipboard"
+          data-text-to-copy={@share_url}
+          class="rounded-r-lg rounded-l-none flex-shrink-0 text-sm px-3 py-2 text-center "
+        >
+          <.icon name="hero-document-duplicate-solid" class="mr-1.5 -ml-0.5" /> Copy
+        </.button>
+      </div>
 
-  <p :if={Enum.empty?(@devices)} class="text-lg text-amber-500 font-semibold">
-    <.icon name="hero-signal-slash" class="mr-1.5" /> No devices connected yet
-  </p>
+      <p class="font-semibold text-zinc-600">Or</p>
 
-  <div class="flex flex-col gap-5 mt-2">
-    <%= for {index, device} <- @devices do %>
-      <IntisyncWeb.DeviceCardComponent.view
-        id={"device-#{index}"}
-        device={device}
-        disabled={true}
-      />
-    <% end %>
-  </div>
-</section>
+      <.button
+        id="shareButton"
+        phx-hook="NativeShare"
+        data-url={@share_url}
+        data-title="Share session url"
+        data-text="Join an IntiSync session"
+        phx-update="ignore"
+      >
+        <.icon name="hero-share-solid" class="mr-1.5 -ml-0.5" /> Share
+      </.button>
+    </div>
+  </section>
 
-<div id={@session_id} phx-hook="HubHook"></div>
+  <section
+    :if={@intiface_client_status == :disconnected}
+    id="intiface-central-connect"
+    class="text-center rounded-lg border-solid border-zinc-200 border-2 p-6"
+  >
+    <h3 class="text-2xl mb-6 font-semibold text-zinc-600">
+      Connect to Intiface Central to control your devices
+    </h3>
+
+    <.button id="intiface-connect-button" type="button" phx-click="connect">
+      <.icon name="hero-link-solid" class="mr-1.5 -ml-0.5" /> Connect
+    </.button>
+  </section>
+
+  <section :if={@intiface_client_status == :connected} id="connected-devices-section">
+    <h2 class="text-3xl mb-4 font-bold text-indigo-500">
+      Connected devices
+    </h2>
+
+    <p :if={Enum.empty?(@devices)} class="text-lg text-amber-500 font-semibold">
+      <.icon name="hero-signal-slash" class="mr-1.5" /> No devices connected yet
+    </p>
+
+    <div class="flex flex-col gap-5 mt-2">
+      <%= for {index, device} <- @devices do %>
+        <IntisyncWeb.DeviceCardComponent.view
+          id={"device-#{index}"}
+          device={device}
+          disabled={true}
+        />
+      <% end %>
+    </div>
+  </section>
+</main>
+
+<div id={@session_id} phx-hook="Hub"></div>
