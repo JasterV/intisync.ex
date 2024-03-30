@@ -10,10 +10,6 @@ defmodule IntisyncWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   pipeline :hub do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -34,11 +30,6 @@ defmodule IntisyncWeb.Router do
     pipe_through :hub
     live "/sessions/:id", HubLive
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", IntisyncWeb do
-  #   pipe_through :api
-  # end
 
   # Enable LiveDashboard in development
   if Application.compile_env(:intisync, :dev_routes) do
