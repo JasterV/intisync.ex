@@ -15,7 +15,7 @@ defmodule Intisync.SessionServerTest do
   } do
     assert SessionServer.get_id(pid) == session_id
     assert SessionServer.get_devices(pid) == %{}
-    assert SessionServer.full?(pid)
+    refute SessionServer.full?(pid)
   end
 
   test "Calling device_connected adds the device to the state", %{
