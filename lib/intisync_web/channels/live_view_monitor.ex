@@ -18,16 +18,16 @@ defmodule IntisyncWeb.LiveViewMonitor do
   end
 
   def handle_call({:monitor, pid, view_module, meta}, _, %{views: views} = state) do
-    mref = Process.monitor(pid)
-    {:reply, :ok, %{state | views: Map.put(views, pid, {view_module, meta, mref})}}
+    _ref = Process.monitor(pid)
+    {:reply, :ok, %{state | views: Map.put(views, pid, {view_module, meta})}}
   end
 
-  def handle_info({:DOWN, _ref, :process, pid, reason}, state) do
-    {{module, meta, mref}, new_views} = Map.pop(state.views, pid)
+  def handle_info({:DOWN, ref, :process, pid, reason}, state) do
+    {{module, meta}, new_views} = Map.pop(state.views, pid)
+
+    Process.demonitor(ref)
 
     Task.start(fn -> module.unmount(reason, meta) end)
-
-    Process.demonitor(mref)
 
     {:noreply, %{state | views: new_views}}
   end

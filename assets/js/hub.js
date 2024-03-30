@@ -2,9 +2,13 @@ import { socketConfig } from "./setup";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import HubHook from "./hubHook";
+import NativeShareHook from "./nativeShareHook";
+import CopyToClipboardHook from "./copyToClipboardHook";
 
 const Hooks = {
-  HubHook: HubHook(),
+  Hub: HubHook(),
+  NativeShare: NativeShareHook(),
+  CopyToClipboard: CopyToClipboardHook(),
 };
 
 const liveSocket = new LiveSocket("/live", Socket, {
