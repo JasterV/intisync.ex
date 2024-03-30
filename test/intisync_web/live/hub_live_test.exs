@@ -112,12 +112,12 @@ defmodule IntisyncWeb.HubLiveTest do
        %{conn: conn, session_id: session_id} do
     {:ok, view, _html} = live(conn, ~p"/sessions/#{session_id}")
 
-    assert view |> element("#connect-buttons") |> has_element?()
+    assert view |> element("#intiface-connect-button") |> has_element?()
     refute view |> element("#connected-devices-section") |> has_element?()
 
     render_click(view, "connected", %{})
 
-    refute view |> element("#connect-buttons") |> has_element?()
+    refute view |> element("#intiface-connect-button") |> has_element?()
     assert view |> element("#connected-devices-section") |> has_element?()
   end
 
@@ -127,12 +127,12 @@ defmodule IntisyncWeb.HubLiveTest do
 
     render_click(view, "connected", %{})
 
-    refute view |> element("#connect-buttons") |> has_element?()
+    refute view |> element("#intiface-connect-button") |> has_element?()
     assert view |> element("#connected-devices-section") |> has_element?()
 
     render_click(view, "disconnected", %{})
 
-    assert view |> element("#connect-buttons") |> has_element?()
+    assert view |> element("#intiface-connect-button") |> has_element?()
     refute view |> element("#connected-devices-section") |> has_element?()
   end
 
@@ -140,7 +140,7 @@ defmodule IntisyncWeb.HubLiveTest do
        %{conn: conn, session_id: session_id} do
     {:ok, view, _html} = live(conn, ~p"/sessions/#{session_id}")
 
-    assert view |> element("#connect-buttons") |> has_element?()
+    assert view |> element("#intiface-connect-button") |> has_element?()
 
     assert view |> element("#intiface-connect-button") |> render_click()
 
@@ -229,7 +229,7 @@ defmodule IntisyncWeb.HubLiveTest do
 
     render_click(view, "disconnected", %{})
 
-    assert view |> element("#connect-buttons") |> has_element?()
+    assert view |> element("#intiface-connect-button") |> has_element?()
     refute view |> element("#connected-devices-section") |> has_element?()
 
     render_click(view, "connected", %{})
