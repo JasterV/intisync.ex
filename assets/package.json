@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "deploy": "cd .. && mix assets.deploy && rm -f _build/esbuild*"
+  },
   "dependencies": {
     "buttplug": "^3.2.2",
     "topbar": "^2.0.2"
