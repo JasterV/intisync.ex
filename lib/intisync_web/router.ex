@@ -14,15 +14,25 @@ defmodule IntisyncWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :hub do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {IntisyncWeb.Layouts, :hub_root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
   scope "/", IntisyncWeb do
     pipe_through :browser
 
     live "/", LobbyLive
     live "/sessions/:id/remote", RemoteLive
+  end
 
-    live_session :hub, root_layout: {IntisyncWeb.Layouts, :hub_root} do
-      live "/sessions/:id", HubLive
-    end
+  scope "/", IntisyncWeb do
+    pipe_through :hub
+    live "/sessions/:id", HubLive
   end
 
   # Other scopes may use custom stacks.
