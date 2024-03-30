@@ -108,6 +108,37 @@ defmodule IntisyncWeb.HubLiveTest do
     refute view |> element("#remote-controller-connected-badge") |> has_element?()
   end
 
+  test "Share session section is shown when controller is disconnected", %{
+    conn: conn,
+    session_id: session_id
+  } do
+    {:ok, view, _html} = live(conn, ~p"/sessions/#{session_id}")
+
+    assert view |> element("#share-session") |> has_element?()
+  end
+
+  test "Share session section is not shown when controller connects", %{
+    conn: conn,
+    session_id: session_id
+  } do
+    {:ok, view, _html} = live(conn, ~p"/sessions/#{session_id}")
+    {:ok, remote_view, _html} = live(conn, ~p"/sessions/#{session_id}/remote")
+
+    refute view |> element("#share-session") |> has_element?()
+  end
+
+  test "Share session section is shown again when controller disconnects", %{
+    conn: conn,
+    session_id: session_id
+  } do
+    {:ok, view, _html} = live(conn, ~p"/sessions/#{session_id}")
+    {:ok, remote_view, _html} = live(conn, ~p"/sessions/#{session_id}/remote")
+
+    assert remote_view |> element("#nav-home-btn") |> render_click() |> follow_redirect(conn)
+
+    assert view |> element("#share-session") |> has_element?()
+  end
+
   test "The connect buttons section gets replaced by the devices section when intiface client connects",
        %{conn: conn, session_id: session_id} do
     {:ok, view, _html} = live(conn, ~p"/sessions/#{session_id}")
