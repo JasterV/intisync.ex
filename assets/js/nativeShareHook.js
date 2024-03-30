@@ -11,7 +11,6 @@ const NativeShare = () => {
         }
 
         try {
-          // Share the file
           await navigator.share({
             title: this.el.dataset.title,
             text: this.el.dataset.text,

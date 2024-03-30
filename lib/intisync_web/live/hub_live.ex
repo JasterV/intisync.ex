@@ -104,10 +104,6 @@ defmodule IntisyncWeb.HubLive do
     {:noreply, put_flash(socket, :info, "Session shared! :)")}
   end
 
-  def handle_event("url_copied", %{}, socket) do
-    {:noreply, put_flash(socket, :info, "Url copied! :)")}
-  end
-
   def handle_event("url_share_error", %{"error" => error}, socket) do
     {:noreply, put_flash(socket, :error, "Failed to share session. #{error}")}
   end
