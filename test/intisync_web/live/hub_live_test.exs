@@ -122,7 +122,7 @@ defmodule IntisyncWeb.HubLiveTest do
     session_id: session_id
   } do
     {:ok, view, _html} = live(conn, ~p"/sessions/#{session_id}")
-    {:ok, remote_view, _html} = live(conn, ~p"/sessions/#{session_id}/remote")
+    {:ok, _remote_view, _html} = live(conn, ~p"/sessions/#{session_id}/remote")
 
     refute view |> element("#share-session") |> has_element?()
   end
