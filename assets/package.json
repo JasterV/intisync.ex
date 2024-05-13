@@ -4,6 +4,6 @@
   },
   "dependencies": {
     "buttplug": "^3.2.2",
-    "topbar": "^2.0.2"
+    "topbar": "^3.0.0"
   }
 }
