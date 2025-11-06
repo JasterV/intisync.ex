@@ -17,7 +17,7 @@ defmodule IntisyncWeb.DeviceCardComponent do
     >
       <p class="font-semibold text-2xl mb-4">
         <.icon name="hero-link-solid" class="mr-1" />
-        <%= @device.name %>
+        {@device.name}
       </p>
       <input
         type="range"
