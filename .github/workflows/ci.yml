@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: ["26.0"]
-        elixir: ["1.16.0"]
+        otp: ["28.1"]
+        elixir: ["1.19.2"]
 
     steps:
       - name: Set up Elixir
